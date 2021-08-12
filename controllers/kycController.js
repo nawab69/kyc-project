@@ -8,38 +8,17 @@ export const submitKyc = expressAsyncHandler(async (req, res) => {
   let files, file;
   const attachments = [];
 
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send("No files were uploaded.");
-  }
-  files = req.files.attachments;
-
-  if (files && !files.length) {
-    if (
-      files.mimetype == "image/png" ||
-      files.mimetype == "image/jpg" ||
-      files.mimetype == "image/jpeg"
-    ) {
-      const fileName = uuid() + path.extname(files.name);
-      const uploadPath = path.join(`uploads/${fileName}`);
-      files.mv(uploadPath, function (err) {
-        if (err) throw new Error(err);
-      });
-      attachments.push(fileName);
-    } else {
-      throw new Error("Invalid File Format. Only jpg, jpeg and png supported");
-    }
-  }
-
-  if (files && files.length) {
-    files.forEach((item) => {
+  if (req.files && Object.keys(req.files).length > 0) {
+    files = req.files.attachments;
+    if (files && !files.length) {
       if (
-        item.mimetype == "image/png" ||
-        item.mimetype == "image/jpg" ||
-        item.mimetype == "image/jpeg"
+        files.mimetype == "image/png" ||
+        files.mimetype == "image/jpg" ||
+        files.mimetype == "image/jpeg"
       ) {
-        const fileName = uuid() + path.extname(item.name);
+        const fileName = uuid() + path.extname(files.name);
         const uploadPath = path.join(`uploads/${fileName}`);
-        item.mv(uploadPath, function (err) {
+        files.mv(uploadPath, function (err) {
           if (err) throw new Error(err);
         });
         attachments.push(fileName);
@@ -48,7 +27,28 @@ export const submitKyc = expressAsyncHandler(async (req, res) => {
           "Invalid File Format. Only jpg, jpeg and png supported"
         );
       }
-    });
+    }
+
+    if (files && files.length) {
+      files.forEach((item) => {
+        if (
+          item.mimetype == "image/png" ||
+          item.mimetype == "image/jpg" ||
+          item.mimetype == "image/jpeg"
+        ) {
+          const fileName = uuid() + path.extname(item.name);
+          const uploadPath = path.join(`uploads/${fileName}`);
+          item.mv(uploadPath, function (err) {
+            if (err) throw new Error(err);
+          });
+          attachments.push(fileName);
+        } else {
+          throw new Error(
+            "Invalid File Format. Only jpg, jpeg and png supported"
+          );
+        }
+      });
+    }
   }
 
   const user = req.user;
