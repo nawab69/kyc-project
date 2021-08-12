@@ -7,12 +7,14 @@ import { errorHandler } from "./middleware/errorMiddleware.js";
 
 import userRoutes from "./routes/userRoutes.js";
 import kycRouter from "./routes/kycRoutes.js";
+import fetchRouter from "./routes/fetchRoutes.js";
 const app = express();
 dotenv.config();
 database();
+app.use(fileUpload());
 app.use(express.json());
 app.use(cors());
-
+app.use("/", fetchRouter);
 app.use("/api/user", userRoutes);
 app.use("/api/kyc", kycRouter);
 app.use(errorHandler);

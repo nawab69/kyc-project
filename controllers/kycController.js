@@ -1,8 +1,56 @@
 import expressAsyncHandler from "express-async-handler";
 import Kyc from "../models/Kyc.js";
 import moment from "moment";
+import path from "path";
+import { uuid } from "uuidv4";
 
 export const submitKyc = expressAsyncHandler(async (req, res) => {
+  let files, file;
+  const attachments = [];
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send("No files were uploaded.");
+  }
+  files = req.files.attachments;
+
+  if (files && !files.length) {
+    if (
+      files.mimetype == "image/png" ||
+      files.mimetype == "image/jpg" ||
+      files.mimetype == "image/jpeg"
+    ) {
+      const fileName = uuid() + path.extname(files.name);
+      const uploadPath = path.join(`uploads/${fileName}`);
+      files.mv(uploadPath, function (err) {
+        if (err) throw new Error(err);
+      });
+      attachments.push(fileName);
+    } else {
+      throw new Error("Invalid File Format. Only jpg, jpeg and png supported");
+    }
+  }
+
+  if (files && files.length) {
+    files.forEach((item) => {
+      if (
+        item.mimetype == "image/png" ||
+        item.mimetype == "image/jpg" ||
+        item.mimetype == "image/jpeg"
+      ) {
+        const fileName = uuid() + path.extname(item.name);
+        const uploadPath = path.join(`uploads/${fileName}`);
+        item.mv(uploadPath, function (err) {
+          if (err) throw new Error(err);
+        });
+        attachments.push(fileName);
+      } else {
+        throw new Error(
+          "Invalid File Format. Only jpg, jpeg and png supported"
+        );
+      }
+    });
+  }
+
   const user = req.user;
   const { step } = req.body;
   let kyc = await Kyc.findOne({ user: user._id });
@@ -22,6 +70,9 @@ export const submitKyc = expressAsyncHandler(async (req, res) => {
         kyc.basic.country = country;
         kyc.basic.birthdate = date;
         kyc.basic.status = "requested";
+        if (attachments.length > 0) {
+          kyc.basic.attachment = [...attachments];
+        }
         kyc.save();
       } else {
         throw new Error("Please fill all Basic field");
@@ -40,6 +91,9 @@ export const submitKyc = expressAsyncHandler(async (req, res) => {
         kyc.intermediate.cardNo = cardNo;
         kyc.intermediate.cardType = cardType;
         kyc.intermediate.status = "requested";
+        if (attachments.length > 0) {
+          kyc.intermediate.attachment = [...attachments];
+        }
         kyc.save();
       } else {
         throw new Error("Please fill all Intermediate field");
@@ -61,6 +115,9 @@ export const submitKyc = expressAsyncHandler(async (req, res) => {
         kyc.advance.state = state;
         kyc.advance.zip = zip;
         kyc.advance.status = "requested";
+        if (attachments.length > 0) {
+          kyc.advance.attachment = [...attachments];
+        }
         kyc.save();
       } else {
         throw new Error("Please fill all Advance field");

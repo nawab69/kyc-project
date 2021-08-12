@@ -24,7 +24,7 @@ const kycSchema = mongoose.Schema(
         enum: ["not verified", "requested", "verified", "cancelled"],
         default: "not verified",
       },
-      attatchment: [],
+      attachment: [],
     },
     intermediate: {
       cardNo: {
@@ -40,7 +40,7 @@ const kycSchema = mongoose.Schema(
         enum: ["not verified", "requested", "verified", "cancelled"],
         default: "not verified",
       },
-      attatchment: [],
+      attachment: [],
     },
     advance: {
       presentAddress: {
@@ -63,7 +63,7 @@ const kycSchema = mongoose.Schema(
         enum: ["not verified", "requested", "verified", "cancelled"],
         default: "not verified",
       },
-      attatchment: [],
+      attachment: [],
     },
   },
   {
