@@ -1,5 +1,8 @@
 import expressAsyncHandler from "express-async-handler";
+import passwordResetMail from "../mail/passwordResetMail.js";
+import PasswordReset from "../models/PasswordReset.js";
 import User from "../models/User.js";
+import { encryptData } from "../utils/Encryption.js";
 import JWT from "../utils/JWT.js";
 
 export const authUser = expressAsyncHandler(async (req, res) => {
@@ -114,5 +117,61 @@ export const userUpdate_admin = expressAsyncHandler(async (req, res) => {
   } else {
     res.status(404);
     throw new Error("User not found");
+  }
+});
+
+export const updatePassword = expressAsyncHandler(async (req, res) => {
+  const user = await User.findOne({ email: req.user.email });
+  console.log({ user });
+  const { prevPassword, newPassword } = req.body;
+
+  if (user) {
+    if (await user.matchPassword(prevPassword)) {
+      user.password = newPassword;
+      user.save();
+      res.json({ message: "Password updated successfully" });
+    } else {
+      throw new Error("Invalid prev Password");
+    }
+  } else {
+    throw new Error("User not found");
+  }
+});
+
+export const forgotPassword = expressAsyncHandler(async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (user) {
+    const resetPassword = await PasswordReset.findOne({ user: user._id });
+    const generateCode = Math.floor(100000 + Math.random() * 900000);
+    const token = await encryptData(
+      user._id.toString(),
+      generateCode.toString()
+    );
+    if (resetPassword) {
+      await resetPassword.delete();
+    }
+    await PasswordReset.create({
+      user: user._id,
+      code: token,
+    });
+    passwordResetMail(user.email, token);
+    res.json({ message: "A code has been sent" });
+  } else {
+    res.json({ message: "A code has been sent" });
+  }
+});
+
+export const resetPassword = expressAsyncHandler(async (req, res) => {
+  const { token, password } = req.body;
+  const resetData = await PasswordReset.findOne({ code: token });
+  if (resetData) {
+    const user = await User.findById(resetData.user);
+    user.password = password;
+    await user.save();
+    resetData.delete();
+    res.json({ message: "Password changed successfully" });
+  } else {
+    res.status(404);
+    throw new Error("Link expired or not found");
   }
 });
