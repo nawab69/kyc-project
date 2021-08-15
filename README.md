@@ -71,7 +71,42 @@ Method `post`
 }
 ```
 
-You will get a object with jwt token.
+### Update Password / Change Password
+
+Endpoint: `/api/user/change-password`
+Method `put`
+Authentication `Bearer jwttoken`
+
+```
+{
+    "prevPassword" : "password",
+    "newPassword" : "123456789"
+}
+```
+
+### Request Forget Password
+
+Endpoint: `/api/user/forgot-password`
+Method `post`
+
+```
+{
+    "email" : "user2@mail.com"
+}
+```
+
+### Reset Password from Mail
+
+Endpoint: `/api/user/reset-password`
+Method `post`
+
+```
+{
+    "token" : "26367433b2a8fe3b62ff236dd622e8969353784f42a1ab8d76cd2ca197572523",
+    "password" : "password"
+
+}
+```
 
 ### SUBMIT KYC DOCUMENT and info
 
