@@ -59,4 +59,20 @@ export const moderator = expressAsyncHandler(async (req, res, next) => {
   }
 });
 
-export const changeRoleTo = expressAsyncHandler(async (req, res, next) => {});
+export const prospect = expressAsyncHandler(async (req, res, next) => {
+  if (req.user && req.user.role === "prospect") {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Authorization failed as prospect");
+  }
+});
+
+export const investor = expressAsyncHandler(async (req, res, next) => {
+  if (req.user && req.user.role === "investor") {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Authorization failed as investor");
+  }
+});

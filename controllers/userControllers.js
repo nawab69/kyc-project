@@ -29,7 +29,7 @@ export const authUser = expressAsyncHandler(async (req, res) => {
 });
 
 export const registerUser = expressAsyncHandler(async (req, res) => {
-  const { nickname, email, password, walletPassword } = req.body;
+  const { nickname, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -174,4 +174,23 @@ export const resetPassword = expressAsyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Link expired or not found");
   }
+});
+
+// @method : resgisterAsProspect
+// @info : existing user can update his role to prospect
+
+export const registerAsProspect = expressAsyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  user.role = "prospect";
+  user.save();
+  res.json(user);
+});
+
+// @method : resgisterAsInvestor
+// @info : existing user can update his role to investor
+export const registerAsInvestor = expressAsyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  user.role = "investor";
+  user.save();
+  res.json(user);
 });
