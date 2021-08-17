@@ -192,3 +192,19 @@ Authentication `Bearer jwttoken`
 Endpoint: `/api/kyc/{userid}/cancel`
 Method `PUT`
 Authentication `Bearer jwttoken`
+
+### REGISTER AS PROSPECT
+
+(only user)
+
+Endpoint: `/api/user/role/prospect`
+Method `PUT`
+Authentication `Bearer jwttoken`
+
+### REGISTER AS INVESTOR
+
+(only user)
+
+Endpoint: `/api/user/role/investor`
+Method `PUT`
+Authentication `Bearer jwttoken`
