@@ -1,53 +1,28 @@
 "use strict";
-import { BSC_RPC, ETH_RPC } from "../Constants.js";
+import { ETH_RPC } from "../Constants.js";
 import { decryptPrivateKey } from "./encryption.js";
-import { getContract, getWeb3 } from "./provider.utils.js";
 import WalletModel from "../models/Wallet.js";
 import { ERC20 } from "../contracts/contracts.js";
 import BigNumber from "bignumber.js";
+import { getContract, getWeb3 } from "../ethereum";
 
-const NETWORK = {
-  ETH: "eth",
-  BSC: "bnb",
-};
-
-export class Wallet {
+export default class Wallet {
   constructor(userId, walletPass) {
     this.userId = userId;
     this.walletPass = walletPass;
   }
 
-  async init(network) {
-    this.network = network;
-    switch (network) {
-      case NETWORK.ETH:
-        this.web3 = await getWeb3(ETH_RPC);
-        break;
-      case NETWORK.BSC:
-        this.web3 = await getWeb3(BSC_RPC);
-        break;
-      default:
-        throw new Error("Invalid network");
-    }
-    return await this.decrypt();
+  async init() {
+    this.web3 = await getWeb3(ETH_RPC);
+    return this;
   }
 
   async decrypt() {
     const wallet = await WalletModel.findOne({ user: this.userId });
-    let account;
-    switch (this.network) {
-      case NETWORK.ETH:
-        account = wallet.ethWallet;
-        break;
-      case NETWORK.BSC:
-        account = wallet.bnbWallet;
-        break;
-      default:
-        throw new Error("Invalid network");
-    }
+    const account = wallet.ethWallet;
     this.address = account.address;
     this.privateKey = decryptPrivateKey(account.privateKey, this.walletPass);
-    return true;
+    return this;
   }
 
   async initToken(contractAddress) {
@@ -83,7 +58,7 @@ export class Wallet {
 
   async transferToken(to, amount) {
     if (this.token) {
-      console.log(this.token);
+      this.decrypt();
       const decimal = await this.token.methods.decimals().call();
       const Bigvalue = (amount * Math.pow(10, decimal)).toString();
       const bigNumber = BigNumber(Bigvalue);

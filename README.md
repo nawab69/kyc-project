@@ -208,3 +208,48 @@ Authentication `Bearer jwttoken`
 Endpoint: `/api/user/role/investor`
 Method `PUT`
 Authentication `Bearer jwttoken`
+
+### ETHEREUM WALLET
+
+API (not finished)
+
+Utility function
+
+- `getWeb3` , `getContract` function to get web3 provider and contract instance
+
+- `initWeb3` , initialize web3 provider with `JSON RPC URL`
+
+- `balance` utility function created for check ETH balance of an address
+
+- `brodcast` utility function to brodcast a raw Transaction
+
+- `tokenBalance` utility function to check Any standard ERC20 token balance
+
+- `\utils\ethereum\index.js` for mapping all utility class
+
+Wallet class
+
+- `\utils\wallet\index.js` Wallet class
+
+- wallet initialization
+- wallet decryption
+- create raw transaction
+- transfer ethereum
+- initialize erc20 token
+- create raw transaction for erc20 token transfer
+
+Encryption
+
+- utils\Encryption.js for encrypt and decrypt wallet
+
+Model
+
+- Wallet database Model , one to one relationship with user model
+
+Contracts
+
+- ERC20 Contract abi
+
+middleware
+
+- `rateLimitMiddleWare` for restrict API access between 30 seconds. (forgotpassword)
