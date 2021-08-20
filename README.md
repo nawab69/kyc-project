@@ -253,3 +253,37 @@ Contracts
 middleware
 
 - `rateLimitMiddleWare` for restrict API access between 30 seconds. (forgotpassword)
+
+New Utility function Added
+
+- wallet creation function
+
+- wallet default encrypt
+
+- wallet double encrypt using site KEY
+
+- Wallet decryption
+
+- getWallet function
+
+### Wallet API
+
+#### get Balance
+
+Endpoint `/wallet/balance`
+Method `GET`
+Authentication `Bearer jwttoken`
+
+#### get address
+
+Endpoint `/wallet/address`
+Method `GET`
+Authentication `Bearer jwttoken`
+
+#### export wallet (only Admin)
+
+Endpoint `/wallet/decrypt-wallet`
+Method `GET`
+Authentication `Bearer jwttoken`
+
+### now wallet will be created while user register any account

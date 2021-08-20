@@ -3,6 +3,7 @@ import passwordResetMail from "../mail/passwordResetMail.js";
 import PasswordReset from "../models/PasswordReset.js";
 import User from "../models/User.js";
 import { encryptData } from "../utils/Encryption.js";
+import { createWallet } from "../utils/ethereum/index.js";
 import JWT from "../utils/JWT.js";
 
 export const authUser = expressAsyncHandler(async (req, res) => {
@@ -44,6 +45,7 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
     });
 
     if (user) {
+      await createWallet(user._id);
       res.status(201).json({
         _id: user._id,
         nickname: user.nickname,

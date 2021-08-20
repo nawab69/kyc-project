@@ -1,5 +1,5 @@
 "use strict";
-import initWeb3 from ".";
+import { initWeb3 } from "./index.js";
 
 const brodcast = async (rawTx) => {
   const web3 = await initWeb3();

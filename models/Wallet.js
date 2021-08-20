@@ -10,7 +10,7 @@ const WalletSchema = mongoose.Schema(
       address: {
         type: String,
       },
-      privateKey: {
+      wallet: {
         type: String,
       },
     },

@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { getContract, initWeb3 } from ".";
+import { getContract, initWeb3 } from "./index.js";
 
 const tokenBalance = async (address, tokenAddress) => {
   const web3 = await initWeb3();
