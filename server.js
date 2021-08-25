@@ -1,23 +1,2 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import fileUpload from "express-fileupload";
-import database from "./connectDB.js";
-import { errorHandler } from "./middleware/errorMiddleware.js";
-
-import userRoutes from "./routes/userRoutes.js";
-import kycRouter from "./routes/kycRoutes.js";
-import fetchRouter from "./routes/fetchRoutes.js";
-import walletRouter from "./routes/walletRoutes.js";
-const app = express();
-dotenv.config();
-database();
-app.use(fileUpload());
-app.use(express.json());
-app.use(cors());
-app.use("/", fetchRouter);
-app.use("/api/user", userRoutes);
-app.use("/api/kyc", kycRouter);
-app.use("/api/wallet", walletRouter);
-app.use(errorHandler);
+import app from "./app.js";
 const server = app.listen(8000, () => console.log("Server is running"));

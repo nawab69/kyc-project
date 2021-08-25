@@ -4,8 +4,6 @@ import Wallet from "../../models/Wallet.js";
 import app from "../../config/app.js";
 import connectDB from "../../connectDB.js";
 
-connectDB();
-
 // @ Function: get wallet
 // @ Params:  userID
 const getWallet = async (userID) => {

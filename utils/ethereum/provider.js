@@ -13,7 +13,6 @@ const getWeb3 = (rpc) => {
 };
 
 const getContract = async (web3, abi, address) => {
-  const networkId = await web3.eth.net.getId();
   return new web3.eth.Contract(abi, address);
 };
 

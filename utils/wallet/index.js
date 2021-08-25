@@ -1,10 +1,11 @@
 "use strict";
-import { ETH_RPC } from "../Constants.js";
-import { decryptPrivateKey } from "./encryption.js";
-import WalletModel from "../models/Wallet.js";
-import { ERC20 } from "../contracts/contracts.js";
+import { ETH_RPC } from "../../Constants.js";
+import { decryptPrivateKey } from "../Encryption.js";
+import WalletModel from "../../models/Wallet.js";
+import { ERC20 } from "../../contracts/contracts.js";
 import BigNumber from "bignumber.js";
-import { getContract, getWeb3 } from "../ethereum";
+import { getContract, getWallet, getWeb3 } from "../ethereum/index.js";
+import app from "../../config/app.js";
 
 export default class Wallet {
   constructor(userId, walletPass) {
@@ -18,10 +19,9 @@ export default class Wallet {
   }
 
   async decrypt() {
-    const wallet = await WalletModel.findOne({ user: this.userId });
-    const account = wallet.ethWallet;
-    this.address = account.address;
-    this.privateKey = decryptPrivateKey(account.privateKey, this.walletPass);
+    const wallet = await getWallet(this.userId);
+    this.address = wallet.address;
+    this.privateKey = wallet.privateKey;
     return this;
   }
 

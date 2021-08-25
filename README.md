@@ -287,3 +287,106 @@ Method `GET`
 Authentication `Bearer jwttoken`
 
 ### now wallet will be created while user register any account
+
+#### Create Transaction
+
+Endpoint `/wallet/transfer/{network}`
+Method `POST`
+Authentication `Bearer jwttoken`
+
+Params : network -> eth (deafult)
+
+##### Request Body :
+
+```
+
+{
+    "currency" : "eth",
+    "amount" : "0.0001",
+    "to" : "0xFB4428cf772c560B7c66b254Ad6BeB7cf4abFeA4"
+}
+
+```
+
+##### Transfer token
+
+```
+{
+    "currency" : "tokenSymbol",
+    "amount" : "0.0001",
+    "to" : "0xFB4428cf772c560B7c66b254Ad6BeB7cf4abFeA4"
+}
+```
+
+#### Response :
+
+```
+{
+    "type": "transactionCreated",
+    "txID": "1a04e4c7-362b-47d1-8f67-61ed7f0b8c00"
+}
+```
+
+### Then Brodcast the transaction
+
+Endpoint `/wallet/brodcast/{network}`
+Method `POST`
+Authentication `Bearer jwttoken`
+
+Params : network -> eth (deafult)
+
+##### Request Body :
+
+```
+{
+    "txID" : "07d0108e-2d11-4dd2-9422-0eacf370ae1d"
+}
+```
+
+##### Response :
+
+```
+{
+    "success": true,
+    "message": "Transaction Successfull",
+    "data": {
+        "receipt": {
+            "transactionHash": "0x7dd32e86e0231c75a35e386bf36755bc66cc21ea2d2538f2fc510add3297ee2f",
+            "transactionIndex": 0,
+            "blockHash": "0xfc5a1646bb1dab9c11be752ebe148c9c78432933050a7b04c981445bdfd33639",
+            "blockNumber": 1055,
+            "from": "0x54580dde69c1a1cbdec951b3b816efddb187834f",
+            "to": "0xfb4428cf772c560b7c66b254ad6beb7cf4abfea4",
+            "gasUsed": 21000,
+            "cumulativeGasUsed": 21000,
+            "contractAddress": null,
+            "logs": [],
+            "status": true,
+            "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+    }
+}
+```
+
+###### Failed Response
+
+If you brodcast unserialize transaction
+
+```
+{
+    "success": false,
+    "message": "Transaction Failed",
+    "data": "Returned error: the tx doesn't have the correct nonce. account has nonce of: 1 tx has nonce of: 0"
+}
+```
+
+If you don't have enough Funds
+
+```
+{
+    "success": false,
+    "message": "Transaction Failed",
+    "data": "Returned error: sender doesn't have enough funds to send tx. The upfront cost is: 5001050000000000000 and the sender's account only has: 998850000000000000"
+}
+
+```
