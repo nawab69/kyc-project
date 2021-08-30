@@ -109,7 +109,6 @@ export const userUpdate_admin = expressAsyncHandler(async (req, res) => {
   if (user) {
     user.nickname = req.body.nickname || user.nickname;
     user.email = req.body.email || user.email;
-    user.isAdmin = req.body.isAdmin || false;
     user.save();
     res.json({
       id: user._id,

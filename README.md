@@ -396,3 +396,35 @@ If you don't have enough Funds
 Endpoint `/profile`
 Method `GET`
 Authentication `Bearer jwttoken`
+
+##### show All User by Admin
+
+Endpoint `/users`
+Method `GET`
+Authentication `Bearer jwttoken`
+
+##### Get specific user By Admin
+
+Endpoint `/user/{email}`
+Method `GET`
+Authentication `Bearer jwttoken`
+
+##### Update user details by Admin
+
+Endpoint `/user/{email}`
+Method `PUT`
+Authentication `Bearer jwttoken`
+
+```
+{
+    "nickname" : "username",
+    "email" : "email@email.com"
+}
+
+```
+
+##### Delete user details by Admin
+
+Endpoint `/user/{email}`
+Method `DELETE`
+Authentication `Bearer jwttoken`
