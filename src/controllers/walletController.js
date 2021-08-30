@@ -113,3 +113,7 @@ export const brodcast = expressAsyncHandler(async (req, res) => {
     });
   }
 });
+
+export const fetchTransaction = expressAsyncHandler(async (req, res) => {
+  const { type } = req.params;
+});

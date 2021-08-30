@@ -390,3 +390,9 @@ If you don't have enough Funds
 }
 
 ```
+
+##### Profile API
+
+Endpoint `/profile`
+Method `GET`
+Authentication `Bearer jwttoken`
