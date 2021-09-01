@@ -5,6 +5,7 @@ import {
   forgotPassword,
   getAllUsers,
   getUserById,
+  registerAsInvestor,
   registerAsProspect,
   registerUser,
   resetPassword,
@@ -25,7 +26,7 @@ userRouter.put("/change-password", protect, updatePassword);
 userRouter.post("/forgot-password", rateLimitMiddleware, forgotPassword);
 userRouter.post("/reset-password", resetPassword);
 userRouter.put("/role/prospect", protect, registerAsProspect);
-userRouter.put("role/investor", protect, investor);
+userRouter.put("/role/investor", protect, registerAsInvestor);
 userRouter
   .route("/:email")
   .delete(protect, admin, deleteUser)

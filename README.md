@@ -428,3 +428,123 @@ Authentication `Bearer jwttoken`
 Endpoint `/user/{email}`
 Method `DELETE`
 Authentication `Bearer jwttoken`
+
+SEP-02
+
+###### CREATE PROSPECT OFFER
+
+Endpoint `/offers/prospect`
+Method `POST`
+Authentication `Bearer jwttoken`
+
+Req Body :
+
+```
+    market : ?optional [market ID],
+    years : Number,
+    proposedInitialPayout : Number,
+    minimumPayout : Number,
+    proposedEscrow : Number,
+    initialFundPayoutDate : DATE object JSON,
+    initialContractYearPayoutDate : DATE object JSON,
+    tier : Array [],
+    attachments : Array [] ,
+    tags : Array [],
+    category : ?optional : String,
+    exp : ?optional : Date,
+
+```
+
+NB : some fields not added. I Will add later after find out all logic and data management
+
+Example Request
+
+```
+{
+    "years" : 5,
+    "proposedInitialPayout" : 4500000,
+    "minimumPayout" : 1000000,
+    "proposedEscrow" : 10,
+    "initialFundPayoutDate" : "2022-04-23",
+    "initialContractYearPayoutDate" : "2022-04-23",
+    "tier" : [
+    ]
+}
+```
+
+###### CREATE Sponsor OFFER
+
+Endpoint `/offers/sponsor`
+Method `POST`
+Authentication `Bearer jwttoken`
+
+Req Body :
+
+```
+    market : ?optional [market ID],
+    years : Number,
+    proposedInitialPayout : Number,
+    minimumPayout : Number,
+    proposedEscrow : Number,
+    initialFundPayoutDate : DATE object JSON,
+    initialContractYearPayoutDate : DATE object JSON,
+    tier : Array [],
+    attachments : Array [] ,
+    tags : Array [],
+    category : ?optional : String,
+    exp : ?optional : Date,
+
+```
+
+NB : some fields not added. I Will add later after find out all logic and data management
+
+Example Request
+
+```
+{
+    "years" : 5,
+    "proposedInitialPayout" : 4500000,
+    "minimumPayout" : 1000000,
+    "proposedEscrow" : 10,
+    "initialFundPayoutDate" : "2022-04-23",
+    "initialContractYearPayoutDate" : "2022-04-23",
+    "tier" : [
+    ]
+}
+```
+
+###### Get Sponsors OFFER (all)
+
+Endpoint `/offers/sponsor`
+Method `GET`
+Authentication `Bearer jwttoken`
+
+###### Get Prospects OFFER (all)
+
+Endpoint `/offers/prospects`
+Method `GET`
+Authentication `Bearer jwttoken`
+
+###### Get Sponsors OFFER (own)
+
+Endpoint `/offers/sponsor/my`
+Method `GET`
+Authentication `Bearer jwttoken`
+
+###### Get Prospects OFFER (own)
+
+Endpoint `/offers/prospects/my`
+Method `GET`
+Authentication `Bearer jwttoken`
+
+###### Get Sponsors OFFER by offer ID
+
+Endpoint `/offers/sponsor/{id}`
+Method `GET`
+Authentication `Bearer jwttoken`
+
+###### Get Prospects OFFER by offer ID
+
+Endpoint `/offers/prospects/{id}`
+Method `GET`
+Authentication `Bearer jwttoken`
