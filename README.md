@@ -548,3 +548,53 @@ Authentication `Bearer jwttoken`
 Endpoint `/offers/prospects/{id}`
 Method `GET`
 Authentication `Bearer jwttoken`
+
+## Smart contract Test API (running)
+
+##### Initialize New Contract
+
+Endpoint `/contract/initializeNewContract`
+Method `POST`
+Authentication `Bearer jwttoken`
+
+request body : `sponsor, prospect, prompti, totalPayment, escrowPayment, feePercent, numberOfYears, firstYear, projectedEarnings[], baseEscrowBalance[],`
+
+##### Initialize Values
+
+Endpoint `/contract/initializeValues`
+Method `POST`
+Authentication `Bearer jwttoken`
+
+request body : `contractId, tierOnePercent, tierTwoPercent, tierThreePercent, tierTwoMinimum, tierThreeMinimum, minimumPayout,`
+
+##### Initialize Payment
+
+Endpoint `/contract/initialPayment`
+Method `POST`
+Authentication `Bearer jwttoken`
+
+request body : `contractId, value`
+
+##### Report Earning
+
+Endpoint `/contract/reportEarnings`
+Method `POST`
+Authentication `Bearer jwttoken`
+
+request body : `contractId, earnings`
+
+##### Verify Earnings Report
+
+Endpoint `/contract/verifyEarningsReport`
+Method `POST`
+Authentication `Bearer jwttoken`
+
+request body : `contractId, earnings`
+
+##### Pay Portion Of Earnings
+
+Endpoint `/contract/payPortionOfEarnings`
+Method `POST`
+Authentication `Bearer jwttoken`
+
+request body : `contractId, payout`
